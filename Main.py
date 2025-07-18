@@ -23,8 +23,12 @@ st.write("Let op: Als je dit tabblad sluit of opnieuw laad verdwijnt je voortgan
 
 st.session_state.first_pass = st.text_input(label="Wachtwoord", placeholder="Dit heb je al kunnen zien..")
 
-if st.session_state.first_pass != st.secrets['first_pass']:
+if str(st.session_state.first_pass).lower() != st.secrets['first_pass']:
     st.stop()
+
+# Setup navigation bar
+st.sidebar.page_link('pages/Hint1.py', label='Hint 1')
+
 
 st.divider()
 
