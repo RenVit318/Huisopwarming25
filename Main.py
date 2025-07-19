@@ -4,14 +4,13 @@ import os
 import zipfile
 import io
 from datetime import datetime
-import time
-
 
 # Page configuration
 st.set_page_config(
     page_title="Huisopwarming Rens",
     page_icon="🔥",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
 # Create uploads directory
@@ -24,10 +23,20 @@ st.write("Let op: Als je dit tabblad sluit of opnieuw laad verdwijnt je voortgan
 st.session_state.first_pass = st.text_input(label="Wachtwoord", placeholder="Dit heb je al kunnen zien..")
 
 if str(st.session_state.first_pass).lower() != st.secrets['first_pass']:
+    st.markdown(
+    """
+<style>
+    [data-testid="collapsedControl"] {
+        display: none
+    }
+</style>
+""",
+    unsafe_allow_html=True,
+)
     st.stop()
 
 # Setup navigation bar
-st.sidebar.page_link('pages/Hint1.py', label='Hint 1')
+#st.sidebar.page_link('pages/Hint1.py', label='Hint 1')
 
 
 st.divider()
@@ -37,10 +46,14 @@ st.write("In totaal zijn er vier hints verspreid door het huis. Gebruik de pagin
 
 st.session_state.kluis = st.text_input(label="De kluis", placeholder="Laatste linie voor grote geheimen..")
 
+if st.session_state.kluis == st.secrets['kluis']:
+    st.write(st.secrets['vaulttext'])
+
+
 st.divider()
 
 st.header("De andere spelers")
-st.write("Upload hier een foto van jezelf als je mee doet aan de treasure hunt. (Ze worden achteraf gedownload en mogelijk veranderd in stickers.)")
+st.write("Upload hier een foto van jezelf als je mee doet aan de treasure hunt. (Ze worden misschien achteraf gedownload en mogelijk veranderd in stickers.)")
 
 # Upload section
 uploaded_files = st.file_uploader(
